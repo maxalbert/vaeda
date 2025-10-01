@@ -1,5 +1,6 @@
 #- PU
 import tensorflow as tf
+import tf_keras as tfk
 import numpy as np
 import sklearn
 from sklearn.model_selection import RepeatedKFold
@@ -47,8 +48,8 @@ def PU(U, P, k, N, cls_eps, seeds, clss='NN', puPat=5, puLR=1e-3, num_layers=1, 
             np.random.seed(seeds[2])
             np.random.shuffle(ind)
             
-            auc = tf.keras.metrics.AUC(curve='PR', name='auc')
-            classifier.compile(optimizer = tf.optimizers.Adam(learning_rate=puLR),
+            auc = tfk.metrics.AUC(curve='PR', name='auc')
+            classifier.compile(optimizer = tfk.optimizers.Adam(learning_rate=puLR),
                           loss = 'binary_crossentropy', 
                           metrics=[auc])
             
@@ -137,8 +138,8 @@ def epoch_PU(U, P, k, N, cls_eps, seeds, puPat=5, puLR=1e-3, num_layers=1, stop_
         np.random.seed(seeds[2])
         np.random.shuffle(ind)
 
-        auc = tf.keras.metrics.AUC(curve='PR', name='auc')
-        classifier.compile(optimizer = tf.optimizers.Adam(learning_rate=puLR),
+        auc = tfk.metrics.AUC(curve='PR', name='auc')
+        classifier.compile(optimizer = tfk.optimizers.Adam(learning_rate=puLR),
                            loss = 'binary_crossentropy',
                            metrics=[auc])
 

@@ -7,6 +7,7 @@ from sklearn.neighbors import NearestNeighbors
 import seaborn as sns
 from sklearn.preprocessing import StandardScaler
 import tensorflow as tf
+import tf_keras as tfk
 #import pickle
 from sklearn.model_selection import train_test_split
 from kneed import KneeLocator
@@ -259,12 +260,12 @@ def vaeda(adata, layer=None, filter_genes=True, verbose=0, save_dir=None,
         tf.random.set_seed(seeds[6])
         vae = define_clust_vae(enc_sze, ngens, clust.max()+1, LR=LR_vae, clust_weight=clust_weight)
 
-        callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss',
-                                                    mode = 'min',
-                                                    min_delta=0, 
-                                                    patience=pat_vae, 
-                                                    verbose=0, 
-                                                    restore_best_weights=False)
+        callback = tfk.callbacks.EarlyStopping(monitor='val_loss',
+                                                mode = 'min',
+                                                min_delta=0, 
+                                                patience=pat_vae, 
+                                                verbose=0, 
+                                                restore_best_weights=False)
 
         def scheduler(epoch, lr):
             if epoch < 3:
@@ -272,7 +273,7 @@ def vaeda(adata, layer=None, filter_genes=True, verbose=0, save_dir=None,
             else:
                 return lr * tf.math.exp(rate)
 
-        callback2 = tf.keras.callbacks.LearningRateScheduler(scheduler)
+        callback2 = tfk.callbacks.LearningRateScheduler(scheduler)
 
         hist = vae.fit(x=[X_train],
                        y=[X_train, clust_train],

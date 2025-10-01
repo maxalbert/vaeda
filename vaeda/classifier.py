@@ -1,5 +1,6 @@
 #- classifier
 import tensorflow as tf
+import tf_keras as tfk
 import numpy as np
     
 
@@ -7,8 +8,7 @@ import numpy as np
     
 def define_classifier(ngens, seed=1, num_layers=1): 
     
-    tfk  = tf.keras
-    tfkl = tf.keras.layers
+    tfkl = tfk.layers
     
     if(num_layers==1):
         classifier = tfk.Sequential([

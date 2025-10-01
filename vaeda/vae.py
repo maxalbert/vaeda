@@ -1,12 +1,12 @@
 #- vae
 import tensorflow as tf
 import tensorflow_probability as tfp
+import tf_keras as tfk
 import numpy as np
 
 def define_clust_vae(enc_sze, ngens, num_clust, LR=1e-3, clust_weight=10000):
     
-    tfk  = tf.keras
-    tfkl = tf.keras.layers
+    tfkl = tfk.layers
     tfpl = tfp.layers
     tfd  = tfp.distributions
 
@@ -52,7 +52,7 @@ def define_clust_vae(enc_sze, ngens, num_clust, LR=1e-3, clust_weight=10000):
         rec = rv_x.log_prob(x)
         return -tf.math.reduce_sum(rec, axis=-1) 
     
-    vae.compile(optimizer = tf.optimizers.Adamax(learning_rate=LR),#Adam, 1e-3
+    vae.compile(optimizer = tfk.optimizers.Adamax(learning_rate=LR),#Adam, 1e-3
                   loss=[nll, 'categorical_crossentropy'], loss_weights=[1,clust_weight])
   
     return vae
@@ -60,8 +60,7 @@ def define_clust_vae(enc_sze, ngens, num_clust, LR=1e-3, clust_weight=10000):
     
 def define_vae(enc_sze, ngens):
     
-    tfk  = tf.keras
-    tfkl = tf.keras.layers
+    tfkl = tfk.layers
     tfpl = tfp.layers
     tfd  = tfp.distributions
 
@@ -101,7 +100,7 @@ def define_vae(enc_sze, ngens):
         rec = rv_x.log_prob(x)
         return -tf.math.reduce_sum(rec, axis=-1) 
     
-    vae.compile(optimizer = tf.optimizers.Adamax(learning_rate=1e-3),#Adam
+    vae.compile(optimizer = tfk.optimizers.Adamax(learning_rate=1e-3),#Adam
                   loss=nll)
 
     return vae
