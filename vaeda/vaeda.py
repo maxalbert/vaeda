@@ -97,9 +97,15 @@ def vaeda(adata, layer=None, filter_genes=True, verbose=0, save_dir=None,
         use_old = False
         
     if (layer is None):
-        X = np.array(adata.X.todense())
+        if hasattr(adata.X, 'todense'):
+            X = np.array(adata.X.todense())
+        else:
+            X = np.array(adata.X)
     else:
-        X = np.array((adata.layers[layer]).todense())
+        if hasattr(adata.layers[layer], 'todense'):
+            X = np.array((adata.layers[layer]).todense())
+        else:
+            X = np.array(adata.layers[layer])
     
     #######################################################
     ######################### SIM #########################
