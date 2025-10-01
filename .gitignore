@@ -8,3 +8,5 @@ vaeda/__pycache__/
 *.txt
 cache
 doc/.ipynb_checkpoints/
+.claude
+.specstory
